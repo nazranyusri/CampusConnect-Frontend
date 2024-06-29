@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    padding: 20px;
+    color: white;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #1D203E;
+}
+
+.search-bar {
+    gap: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    // display: flex;
+    // align-items: center;
+
+    .filter {
+        display: flex;
+        gap: 5px;
+    }
+}
+
+mat-expansion-panel {
+    // margin-bottom: 20px;
+
+    .mat-mdc-raised-button.active  {
+        background-color: #F38D11 !important;
+    }
+
+    .table {
+        overflow-y: auto;
+    }
+}
+
+@media screen and (max-width: 622px) {
+    .filter {
+        margin-bottom: 10px !important;
+    }
+}

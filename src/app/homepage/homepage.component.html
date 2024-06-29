@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Adeliom Template</title>
+</head>
+
+<body>
+    <div class="content-container">
+        <!-- Banner -->
+        <mat-card><img src="../../assets/resources/CampusConnect.png"></mat-card>
+
+        <!-- Statistic -->
+        <mat-card class="statistic">
+            <div>
+                <h5 style="text-align: center;">One Stop Promotion Center</h5>
+            </div>
+            <div class="statistic-container">
+                <div class="total-program">
+                    <div class="numbers">+ {{ programCount }}</div>
+                    <div class="subtitle">programs</div>
+                </div>
+                <div class="total-business">
+                    <div class="numbers">+ {{ businessCount }}</div>
+                    <div class="subtitle">businesses</div>
+                </div>
+                <div class="total-survey">
+                    <div class="numbers">+ {{ surveyCount }}</div>
+                    <div class="subtitle">surveys</div>
+                </div>
+            </div>
+        </mat-card>
+
+        <!-- Discover latest -->
+        <div class="latest">
+            <!-- Latest program -->
+            <div class="item-container">
+                <div class="container-text">
+                    <h4>Explore Opportunities</h4>
+                    <p>
+                        Discover a diverse range of student-led programs, from innovative to sporting events. 
+                        Browse through our curated listings to find opportunities that match your interests and passions.
+                    </p><br><br>
+                    <button mat-raised-button routerLinkActive="active-link" routerLink="/program">Explore Programs</button>
+                </div>
+                <div class="item-card">
+                    <mat-card *ngFor="let program of latestProgram" [routerLink]="['/detailedprogram', program.programId]">
+                        <div class="image-wrapper">
+                            <img mat-card-image [src]="program?.image" class="custom-picture">
+                            <div class="postedby-background"></div>
+                            <div class="postedby">
+                                <div class="profile-picture">
+                                <div class="image-wrapper">
+                                    <img mat-card-image [src]="program.profileImage ? program.profileImage : defaultAvatar" class="custom-picture">
+                                </div>
+                                </div>
+                                <div class="username">{{program.createdBy}}</div>
+                            </div>
+                        </div>
+                        <mat-card-header>
+                            <mat-card-title>
+                                <a [routerLink]="['/detailedprogram', program.programId]">{{ program.programTitle | truncate: 4 }}</a>
+                            </mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p><mat-icon>calendar_today</mat-icon>{{ program.startDate | date:'dd/MM/yyyy' }} - {{ program.endDate | date:'dd/MM/yyyy' }}</p>
+                            <p><mat-icon>access_time</mat-icon>{{ program.startTime }} - {{ program.endTime }}</p>
+                            <p><mat-icon> location_on</mat-icon>{{ program.location }}</p>
+                            <div id="datePublished">Published on {{ program.datePublished | date:'d MMM, yyyy' }}</div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+ 
+            <!-- Latest business -->
+            <div class="item-container reverse">
+                <div class="item-card">
+                    <mat-card *ngFor="let business of latestBusiness" [routerLink]="['/detailedbusiness', business.businessId]">
+                        <div class="image-wrapper">
+                            <img mat-card-image [src]="business?.image" class="custom-picture">
+                            <div class="postedby-background"></div>
+                            <div class="postedby">
+                                <div class="profile-picture">
+                                <div class="image-wrapper">
+                                    <img mat-card-image [src]="business.profileImage ? business.profileImage : defaultAvatar" class="custom-picture">
+                                </div>
+                                </div>
+                                <div class="username">{{business.createdBy}}</div>
+                            </div>
+                        </div>
+                        <mat-card-header>
+                            <mat-card-title>
+                                <a [routerLink]="['/detailedbusiness', business.businessId]">{{ business.businessTitle | truncate: 4 }}</a>
+                            </mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>{{ business.description | truncate: 30 }}</p>
+                            <div id="datePublished">Published on {{ business.datePublished | date:'d MMM, yyyy' }}</div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="container-text">
+                    <h4>Promote Your Venture</h4>
+                    <p>
+                        Are you a student with side hustles? 
+                        Showcase your business and connect with potential customers.
+                    </p><br><br>
+                    <button mat-raised-button routerLinkActive="active-link" routerLink="/business">#SapotLokal</button>
+                </div>
+            </div>
+
+            <!-- Latest survey -->
+            <div class="item-container">
+                <div class="container-text">
+                    <h4>Contribute to Research</h4>
+                    <p>
+                        Conducting a survey for your academic project? Reach out to our vibrant community of students and gather 
+                        valuable insights for your research.
+                    </p><br><br>
+                    <button mat-raised-button routerLinkActive="active-link" routerLink="/survey">Share Your Survey</button>
+                </div>
+                <div class="item-card">
+                    <mat-card *ngFor="let survey of latestSurvey" [routerLink]="['/detailedsurvey', survey.surveyId]">
+                        <div class="survey-card-profile">
+                            <div class="postedby-background"></div>
+                            <div class="postedby">
+                              <div class="profile-picture">
+                                <div class="image-wrapper">
+                                  <img [src]="survey.profileImage ? survey.profileImage : defaultAvatar" class="custom-picture">
+                                </div>
+                              </div>
+                              <div class="username">{{survey.createdBy}}</div>
+                            </div>
+                        </div>
+                        <mat-card-header>
+                            <mat-card-title>
+                                <a [routerLink]="['/detailedsurvey', survey.surveyId]">{{ survey.surveyTitle | truncate: 4 }}</a>
+                            </mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>{{ survey.description | truncate: 30 }}</p>
+                            <div id="datePublished">Published on {{ survey.datePublished | date:'d MMM, yyyy' }}</div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+
+            <!-- Login -->
+             <div class="login">
+                <h1>Join the Community</h1>
+                <p>
+                    Whether you're a budding entrepreneur, a passionate researcher, or a student looking to explore new opportunities, 
+                    CampusConnect is your gateway to success.
+                </p>
+                <button mat-raised-button routerLinkActive="active-link" routerLink="/login">Unleash your potential!</button>
+             </div>
+        </div>
+    </div>
+</body>
+
+</html>

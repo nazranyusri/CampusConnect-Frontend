@@ -1,0 +1,128 @@
+<body>
+    <h2>Post a business</h2>
+    <div class="add-form">
+        <form [formGroup]="businessForm">
+            <div class="form-container">
+                <div class="details-section">
+                    <div class="upper-section">
+                        <!-- Title -->
+                        <p>
+                            <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                                <mat-label>Title</mat-label>
+                                <mat-icon matPrefix>title</mat-icon>
+                                <input matInput formControlName="businessTitle" required>
+                            </mat-form-field>
+                        </p>
+                        <!-- Location -->
+                        <p>
+                            <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                                <mat-label>Your location</mat-label>
+                                <mat-icon matPrefix>pin_drop</mat-icon>
+                                <input matInput formControlName="location" required>
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                                <mat-label>Contact name</mat-label>
+                                <mat-icon matPrefix>person</mat-icon>
+                                <input matInput formControlName="telName" required>
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                                <mat-label>Contact number</mat-label>
+                                <mat-icon matPrefix>call</mat-icon>
+                                <input matInput formControlName="telNo" required>
+                                <mat-error *ngIf="businessForm.controls.telNo.touched && businessForm.controls.telNo.invalid">
+                                    <span *ngIf="businessForm.controls.telNo.errors.pattern">Contact number is invalid</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                                <mat-label>Choose the business category</mat-label>
+                                <mat-icon matPrefix>list</mat-icon>
+                                <mat-select formControlName="tag" required>
+                                    <mat-option value="">--</mat-option>
+                                    <mat-option value="Books">Books</mat-option>
+                                    <mat-option value="Computer & Accessories">Computer & Accessories</mat-option>
+                                    <mat-option value="Electrical Appliances">Electrical Appliances</mat-option>
+                                    <mat-option value="Fashion">Fashion</mat-option>
+                                    <mat-option value="Foods & Drinks">Foods & Drinks</mat-option>
+                                    <mat-option value="Others">Others</mat-option>
+                                    <mat-option value="Sports & Outdoor">Sports & Outdoor</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </p>
+                    </div>
+        
+                    <div class="lower-section">
+                        <!-- Upload photo -->
+                        <div class="image-section">
+                            <div class="image-wrapper">
+                                <img [src]="imagePath" alt="business image" *ngIf="image; else noImage">
+                                <ng-template #noImage>
+                                    <span fxLayoutAlign="center center" style="height: 100%;">
+                                        <p>Image preview</p>
+                                    </span>
+                                </ng-template>
+                            </div>
+                            <div class="image-upload">
+                                <p>
+                                    <label class="form-label" for="customFile">Upload a photo</label>
+                                    <input type="file" formControlName="image" (change)="onImageSelected($event)" class="form-control" accept=".png, .jpg" /> <!-- formControlName="image" -->
+                                </p>
+                            </div>
+                        </div>
+                        <div id="spacer"></div>
+                        <!-- Description -->
+                        <p>
+                            <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                                <mat-label>Description</mat-label>
+                                <mat-icon matPrefix>receipt</mat-icon>
+                                <textarea matInput formControlName="description" cdkTextareaAutosize
+                                    #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="9" cdkAutosizeMaxRows="9" maxlength="500"></textarea>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>                
+            </div>
+            <!-- Items Section -->
+            <div formArrayName="items" class="menu-list">
+                <h6>Item details</h6>
+                <div *ngFor="let item of items.controls; let i=index" [formGroupName]="i">
+                    <div class="item-row-content">
+                        <!-- Item Name -->
+                        <mat-form-field appearance="fill" fxFlex>
+                            <mat-label>Item Name</mat-label>
+                            <input matInput formControlName="itemName" required>
+                        </mat-form-field>
+                        <!-- Item Price -->
+                        <mat-form-field appearance="fill" fxFlex>
+                            <mat-label>Price (RM)</mat-label>
+                            <input matInput formControlName="price" required>
+                        </mat-form-field>
+                        <!-- Quantity -->
+                        <mat-form-field appearance="fill" fxFlex>
+                            <mat-label>Quantity</mat-label>
+                            <input matInput formControlName="quantity" required>
+                        </mat-form-field>
+                        <!-- Item Note -->
+                        <mat-form-field appearance="fill" fxFlex>
+                            <mat-label>Note</mat-label>
+                            <input matInput formControlName="note">
+                        </mat-form-field>
+                        <!-- Delete button (disable for first item) -->
+                        <button mat-icon-button color="warn" (click)="removeItem(i)" [disabled]="i === 0"><mat-icon>delete</mat-icon></button>
+                    </div>
+                </div>
+                <button mat-raised-button (click)="addItem()">Add Item</button>
+            </div>            
+        </form>
+    </div>
+    <div class="button-section">
+        <button mat-raised-button routerLinkActive routerLink="/business">Cancel</button>
+        <button mat-raised-button [disabled]="!(businessForm.valid && businessForm.dirty)" (click)="addBusiness()" class="custom-button">Submit</button>
+        <br><br>
+    </div>
+</body>

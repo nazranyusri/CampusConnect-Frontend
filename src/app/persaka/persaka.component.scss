@@ -1,0 +1,70 @@
+@import '../../styles.scss';
+@import '../../plain-header.scss';
+
+body {
+    margin: 0;
+    padding: 20px;
+    color: white;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #1D203E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.detailed-content {
+    mat-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 1140px;
+        background-color: #1e1e1e;
+        border-radius: 15px;
+        padding: 20px;
+        align-items: center;
+        text-align: center;
+    }
+
+    button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+
+    .mat-mdc-raised-button {                                                                                              // Change button color
+        background-color: map-get($custom-accent-pallette, 500) !important; 
+        color: black !important;
+    }
+
+    .image-wrapper {
+        width: 100%;
+        max-height: 500px;
+        // background-color: red;
+
+        .custom-picture {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+        }
+    }
+
+    .content-details {
+        width: 100%;
+        margin-top: 2%;
+        text-align: center;
+        // background: blue;
+    }
+}
+
+@media screen and (max-width: 1192px) {
+    mat-card {
+        max-width: 760px;
+    }
+}
+
+@media screen and (max-width: 810px) {
+    mat-card {
+        max-width: 370px;
+    }
+}

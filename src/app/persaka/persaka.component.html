@@ -1,0 +1,23 @@
+<body>
+    <div class="header">
+        <mat-card>
+            <mat-card-content>
+                <div class="pageTitle"><img src="assets\resources\businessTitle.png" alt="Discover upcoming business"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="detailed-content">
+        <mat-card>
+            <h2>{{ persaka[0]?.title }}</h2>
+            <ng-container *ngIf="isAuthorized">
+                <button mat-raised-button routerLink="/updatepersaka">Edit</button>
+            </ng-container>
+            <div class="image-wrapper">
+                <img [src]="persaka[0]?.image" class="custom-picture">
+            </div>
+            <div class="content-details">
+                {{ persaka[0]?.description }}
+            </div>
+        </mat-card>
+    </div>
+</body>

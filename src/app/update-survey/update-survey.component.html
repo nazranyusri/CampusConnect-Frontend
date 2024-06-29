@@ -1,0 +1,52 @@
+<body>
+    <h2>Update survey post</h2>
+    <div class="update-form">
+        <form [formGroup]="surveyForm">
+            <div class="upper-section">
+                <!-- Title -->
+                <p>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <mat-label>Title</mat-label>
+                        <mat-icon matPrefix>title</mat-icon>
+                        <input matInput formControlName="surveyTitle" required>
+                    </mat-form-field>
+                </p>
+                <!-- Approx time -->
+                <p>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <mat-label>Minutes taken to fill in the survey</mat-label>
+                        <mat-icon matPrefix>access_time</mat-icon>
+                        <input matInput formControlName="time" required>
+                        <mat-error *ngIf="surveyForm.controls.time.touched && surveyForm.controls.time.invalid">
+                            <span *ngIf="surveyForm.controls.time.errors.pattern">Time is invalid</span>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <!-- Survey link -->
+                <p>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <mat-label>Survey link</mat-label>
+                        <mat-icon matPrefix>link</mat-icon>
+                        <input matInput formControlName="surveyLink" required>
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <div class="lower-section">
+                <!-- Description -->
+                <p>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <mat-label>Description</mat-label>
+                        <mat-icon matPrefix>receipt</mat-icon>
+                        <textarea matInput formControlName="description" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="9" cdkAutosizeMaxRows="9" maxlength="500"></textarea>
+                    </mat-form-field>
+                </p>
+            </div>
+        </form>
+    </div>
+    <div class="button-section">
+        <button mat-raised-button routerLinkActive routerLink="/survey">Cancel</button>
+        <button mat-raised-button [disabled]="!(surveyForm.valid && surveyForm.dirty)" (click)="updateSurvey()" class="custom-button">Submit</button>
+        <br><br>
+    </div>
+</body>

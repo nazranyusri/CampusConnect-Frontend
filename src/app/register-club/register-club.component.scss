@@ -1,0 +1,138 @@
+body {
+    display: flex;
+}
+
+.white-section {
+    width: 30%;
+    background-color: white;
+}
+
+.register-section {
+    width: 70%;
+    height: 100%;
+    background-color: #1D203E;
+    padding: 5%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+
+    .back-button {
+        position: absolute;
+        top: 2%;
+        left: 2%;
+
+        button {
+            background-color: white !important;
+            color: black !important;
+
+            &:hover {
+                transition: transform(0.3s);
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    form {
+        min-width: 50%;
+        max-width: 70%;
+
+        .error-message {
+            &-underline {
+              position: relative;
+              bottom: auto;
+            }
+            &-subscript-wrapper {
+              position: static;
+            }
+          }
+      
+          .mat-mdc-raised-button { // Change button color
+              background-color: white !important; 
+              color: #F38D11 !important;
+              width: 100%;
+              font-weight: bolder;
+          }
+          
+          .mat-mdc-raised-button[disabled]{ // Change button color when disabled
+              background-color: rgb(202, 202, 202) !important;
+              color: rgba(24, 19, 19, 0.12) !important;
+              width: 100%;
+              font-weight: bolder;
+          }
+      
+          a {
+              color: #F38D11;
+          }
+          
+          .login {
+              text-align: center;
+              font-size: 0.8em;
+          }
+    }
+}
+
+@media (max-width: 1000px) {
+    .white-section {
+        display: none;
+    }
+
+    .register-section {
+        width: 100%;
+
+        .back-button {
+            position: static;
+            width: 100% !important;
+            padding: 0 0 20px 0 !important;
+        }
+    
+        form {
+            min-width: 80%;
+        }
+    }
+}
+
+@media (max-width: 599px) {
+    .login-section {
+        width: 100%;
+    }
+}
+
+::ng-deep .custom-outline {
+
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+    // Change border color
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing,
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__leading,
+    // Change border color when focused
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__notch,
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__trailing {
+        border-color: white !important;
+    }
+
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-notched-outline__leading,
+    // Change border color when invalid
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-notched-outline__notch,
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-notched-outline__trailing {
+        border-color: red !important;
+    }
+
+    .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label,
+    // Change label color
+    .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label,
+    // Change label color when focused                   
+    .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
+        // Change input text color                       
+        color: white !important;
+    }
+
+    .mdc-text-field:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-floating-label,
+    // Change label color when invalid
+    .mat-mdc-form-field-required-marker {
+        // Change label's asterisk color
+        color: red !important;
+    }
+}

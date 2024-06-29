@@ -1,0 +1,47 @@
+@import '../../styles.scss';
+
+.menu-spacer {
+    flex: 1 1 auto;
+}
+
+#toolbar a {
+    text-decoration: none; 
+    color: white;
+    margin: 0px 5px 0px 5px;
+
+    &:hover {
+        transition: transform 0.3s;
+        transform: scale(1.1);
+        color: #F38D11;
+    }
+
+    &:active {
+        text-decoration: none;
+        color: #F38D11;
+    }
+}
+
+mat-sidenav {
+    border-top: 3px solid map-get($custom-primary-pallette, 400);
+    box-shadow: 0 10px 15px -3px map-get($custom-primary-pallette, 400);
+    background-color: map-get($custom-primary-pallette, 500);
+
+    a {
+        text-decoration: none;
+    }
+    .mat-mdc-button.mat-mdc-button-base {
+        padding: 20px 20px;
+        width: 100%;
+        justify-content: flex-start; /* Ensure the button content starts from the left */
+    }
+
+    .line {
+        border-bottom: 10px solid map-get($custom-primary-pallette, 400);
+        box-shadow: 0 10px 15px -3px map-get($custom-primary-pallette, 400);
+        width: 100%;
+    }
+}
+
+mat-sidenav-content {
+    position: relative;
+}

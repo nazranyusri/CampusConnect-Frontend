@@ -1,0 +1,33 @@
+.header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    img{
+        max-width: 200px;
+    }
+    
+    mat-card {
+        text-align: center;
+        width: 1140px;
+        border-radius: 15px;
+        height: auto;
+        background-color: map-get($custom-primary-pallette, 500) !important;
+        color: white;
+    }
+
+    @media screen and (max-width: 1192px) {
+        mat-card {
+          max-width: 760px;
+        }
+        img {
+            max-width: 150px;
+        }
+    }
+
+    @media screen and (max-width: 810px) {
+        mat-card {
+          max-width: 370px;
+        }
+    }
+}

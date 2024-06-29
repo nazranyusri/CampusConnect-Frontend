@@ -1,0 +1,50 @@
+<body>
+    <div class="search-section">
+      <mat-card>
+        <mat-card-content class="search-section-content">
+          <div class="pageTitle">
+            <img src="assets/resources/surveyTitle.png" alt="Discover surveys">
+          </div>
+          <div class="search-bar">
+            <mat-form-field appearance="fill" fxFlex class="custom-fill">
+              <input matInput placeholder="Search by survey title.." [(ngModel)]="searchKey">
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <div class="add-item">
+    <a mat-raised-button routerLinkActive="active-link" routerLink="/addsurvey">
+        Add new survey
+        <mat-icon color="accent">add_circle</mat-icon>
+    </a>
+    </div>
+  
+    <div class="content-container">
+      <ng-container *ngIf="(surveys | surveyQuery : searchKey) as results">
+        <mat-card *ngFor="let survey of results" [routerLink]="['/detailedsurvey', survey.surveyId]">
+          <div class="postedby-background"></div>
+          <div class="postedby">
+            <div class="profile-picture">
+              <div class="image-wrapper">
+                <img mat-card-image [src]="survey.profileImage ? survey.profileImage : defaultAvatar" class="custom-picture">
+              </div>
+            </div>
+            <div class="username">{{survey.createdBy}}</div>
+          </div>
+          <mat-card-header>
+            <mat-card-title>
+              <a [routerLink]="['/detailedsurvey', survey.surveyId]">{{ survey.surveyTitle | truncate: 4 }}</a>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ survey.description | truncate: 30 }}</p>
+            <div id="datePublished">Published on {{ survey.datePublished | date:'d MMM, yyyy' }}</div>
+          </mat-card-content>
+        </mat-card>
+        <p class="empty-results" *ngIf="results.length == 0">No survey found</p>
+      </ng-container>
+    </div>
+  </body>
+  

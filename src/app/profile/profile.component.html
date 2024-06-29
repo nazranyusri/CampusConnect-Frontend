@@ -1,0 +1,241 @@
+<body>
+    <div class="content-container">
+        <div class="profile-container" *ngFor="let user of userDetails">
+            <mat-card>
+                <div class="image-wrapper" fxLayoutAlign="center center">
+                    <img mat-card-image [src]="user.image ? user.image : defaultAvatar" alt="User Image">
+                </div>
+                <div class="profile-details">
+                    <div class="user-details">
+                        <h3>Hi {{ user.username }}!</h3>
+                        <p>{{ user.email }}</p>
+                    </div>
+                    <div class="update-section">
+                        <button mat-raised-button color="accent" [routerLink]="['/updateprofile', user.userId]">Edit Profile</button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+
+        <div class="history-container">
+            <div class="heading">
+                <h6>Your post history</h6>
+            </div>
+            <mat-accordion>
+                <!-- Program Panel -->
+                <ng-container *ngIf="isAuthorized">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{ programs.length }} Program<ng-container *ngIf="programs.length > 1">s</ng-container>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="overflow-container">
+                            <div class="program-history-container" *ngIf="programs.length > 0; else noPrograms">
+                                <mat-card *ngFor="let program of programs">
+                                    <div class="image-wrapper">
+                                        <img mat-card-image [src]="program?.image" class="custom-picture">
+                                    </div>
+                                    <mat-card-header>
+                                        <mat-card-title>
+                                            <ng-container *ngIf="isAuthorized; else noLink">
+                                                <a [routerLink]="['/programregistrant', program.programId]">{{ program.programTitle | truncate: 4 }}</a>
+                                            </ng-container>
+                                            <ng-template #noLink>
+                                                <p>{{ program.programTitle | truncate: 4 }}</p>
+                                            </ng-template>
+                                        </mat-card-title>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                        <p><mat-icon>calendar_today</mat-icon>{{ program.startDate | date:'dd/MM/yyyy' }} - {{ program.endDate | date:'dd/MM/yyyy' }}</p>
+                                        <p><mat-icon>access_time</mat-icon>{{ program.startTime }} - {{ program.endTime }}</p>
+                                        <p><mat-icon>location_on</mat-icon>{{ program.location }}</p>
+                                        <div id="datePublished">Published on {{ program.datePublished | date:'d MMM, yyyy' }}  </div>
+                                        <div class="button-container">
+                                            <ng-container *ngIf="isAuthorized">
+                                                <button mat-icon-button id="actions" [routerLink]="['/updateprogram', program.programId]"><mat-icon>edit</mat-icon></button>
+                                                <button mat-icon-button id="actions" (click)="confirmDeleteProgram(program.programId, program.image)"><mat-icon>delete</mat-icon></button>
+                                            </ng-container>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+                        <ng-template #noPrograms>
+                            <div class="empty-results" fxLayoutAlign="center center">You have not posted any programs...</div>
+                        </ng-template>
+                    </mat-expansion-panel>
+                </ng-container>
+
+                <!-- Business Panel -->
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ businesses.length }} Business<ng-container *ngIf="businesses.length > 1">es</ng-container>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="overflow-container">
+                        <div class="business-history-container" *ngIf="businesses.length > 0; else noBusinesses">
+                            <mat-card *ngFor="let business of businesses">
+                                <div class="image-wrapper">
+                                    <img mat-card-image [src]="business?.image" class="custom-picture">
+                                </div>
+                                <mat-card-header>
+                                    <mat-card-title>
+                                            <a [routerLink]="['/businessorder', business.businessId]">{{ business.businessTitle | truncate: 4 }}</a>
+                                    </mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content id="business">
+                                    <p>{{ business.description | truncate: 30 }}</p>
+                                    <div class="button-container">
+                                        <button mat-icon-button id="actions" [routerLink]="['/updatebusiness', business.businessId]"><mat-icon>edit</mat-icon></button>
+                                        <button mat-icon-button id="actions" (click)="confirmDeleteBusiness(business.businessId, business.image)"><mat-icon>delete</mat-icon></button>
+                                    </div>
+                                    <div id="datePublished">Published on {{ business.datePublished | date:'d MMM, yyyy' }}</div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+
+                    <ng-template #noBusinesses>
+                        <div class="empty-results" fxLayoutAlign="center center">You have not posted any businesses...</div>
+                    </ng-template>
+                </mat-expansion-panel>
+
+                <!-- Survey Panel -->
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ surveys.length }} Survey<ng-container *ngIf="surveys.length > 1">s</ng-container>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="overflow-container">
+                        <div class="survey-history-container" *ngIf="surveys.length > 0; else noSurveys">
+                            <mat-card *ngFor="let survey of surveys">
+                                <mat-card-header>
+                                    <mat-card-title>
+                                        <a [routerLink]="['/detailedsurvey', survey.surveyId]">{{ survey.surveyTitle | truncate: 4 }}</a>
+                                    </mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content id="survey">
+                                    <p>{{ survey.description | truncate: 30 }}</p>
+                                    <div id="datePublished">Published on {{ survey.datePublished | date:'d MMM, yyyy' }}</div>
+                                    <div class="button-container">
+                                        <button mat-icon-button id="actions" [routerLink]="['/updatesurvey', survey.surveyId]"><mat-icon>edit</mat-icon></button>
+                                        <button mat-icon-button id="actions" (click)="confirmDeleteSurvey(survey.surveyId)"><mat-icon>delete</mat-icon></button>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+
+                    <ng-template #noSurveys>
+                        <div class="empty-results" fxLayoutAlign="center center">You have not posted any surveys...
+                        </div>
+                    </ng-template>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+
+        <div class="activity-container">
+            <div class="heading">
+                <h6>Your activity</h6>
+            </div>
+            <mat-accordion color="primary">
+                <!-- Program Registered Panel -->
+                <mat-expansion-panel color="primary" *ngIf="!isAuthorized">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ registeredPrograms.length }} Program<ng-container *ngIf="registeredPrograms.length > 1">s</ng-container> registered
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="ordered-container" *ngIf="registeredPrograms.length > 0; else noProgramsJoined">
+                        <div class="an-order-container" *ngFor="let program of registeredPrograms">
+                            <div class="an-order-container-wrapper">
+                                <div class="order-header">
+                                    <div class="title">{{ program.programTitle | truncate: 4 }}</div>
+                                    <div class="card">
+                                        <div><a mat-raised-button id="contact" [href]="'https://wa.me/6' + program.telNo" target="_blank">Contact organiser</a></div>
+                                    </div>
+                                </div>
+                                <div class="order-details">
+                                    <div class="image-wrapper">
+                                        <img [src]="program?.image" class="custom-picture">
+                                    </div>
+                                    <div class="item-details-container">
+                                        <div>
+                                            <p><mat-icon>calendar_today</mat-icon>{{ program.startDate | date:'dd/MM/yyyy' }} - {{ program.endDate | date:'dd/MM/yyyy' }}</p>
+                                            <p><mat-icon>access_time</mat-icon>{{ program.startTime }} - {{ program.endTime }}</p>
+                                            <p><mat-icon>location_on</mat-icon>{{ program.location }}</p>
+                                            <p>{{ program.description | truncate: 40 }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span id="date-purchased">Registered on {{ program.registrationdate | date:'d MMM, yyyy' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template #noProgramsJoined>
+                        <div class="empty-results" fxLayoutAlign="center center">You have not registered any programs...</div>
+                    </ng-template>
+                </mat-expansion-panel>
+
+                <!-- Business Ordered Panel -->
+                <mat-expansion-panel color="primary">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ orderedBusiness.length }} Order<ng-container *ngIf="orderedBusiness.length > 1">s</ng-container> made
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="ordered-container" *ngIf="orderedBusiness.length > 0; else noOrdersMade">
+                        <div class="an-order-container" *ngFor="let order of orderedBusiness">
+                            <div class="an-order-container-wrapper">
+                                <div class="order-header">
+                                    <div class="title">{{ order.businessDetails.businessTitle | truncate: 4 }}</div>
+                                    <div class="card">
+                                        <div><a mat-raised-button id="contact" [href]="'https://wa.me/6' + order.businessDetails.telNo" target="_blank">Contact seller</a></div>
+                                        <div><mat-card id="tag">{{ order.status }}</mat-card></div>
+                                    </div>
+                                </div>
+                                <div class="order-details">
+                                    <div class="image-wrapper">
+                                        <img mat-card-image [src]="order.businessDetails.image" class="custom-picture">
+                                    </div>
+                                    <div class="item-details-container">
+                                        <div class="item-details">
+                                            <table>
+                                                <thead>
+                                                    <th>Item Name</th>
+                                                    <th>Note</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                </thead>
+                                                <tbody *ngFor="let item of order.orderedItem">
+                                                    <tr>
+                                                        <td id="item">{{ item.itemName }}</td>
+                                                        <td id="note">{{ item.note }}</td>
+                                                        <td id="price">{{ item.price }}</td>
+                                                        <td id="quantity">{{ item.quantity }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div><br>
+                                        <div class="total">
+                                            <p>Total: RM {{ order.total }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span id="date-purchased">Purchased on {{ order.datePurchased | date : "hh:MM a, dd/MM/YYYY." }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template #noOrdersMade>
+                        <div class="empty-results" fxLayoutAlign="center center">You have not made any orders...</div>
+                    </ng-template>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </div>
+</body>

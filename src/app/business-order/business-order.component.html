@@ -1,0 +1,109 @@
+<body>
+    <div class="detailed-container">
+
+        <div class="details-card">
+            <div class="image-wrapper">
+                <img [src]="business?.image">
+            </div>
+            <div class="details">
+                <p id="title">{{ business?.businessTitle }}</p>
+                <span id="tag">{{ business?.tag }}</span>
+                <p id="first-item"><mat-icon>person</mat-icon>{{ business?.telName }}</p>
+                <p><mat-icon>call</mat-icon>{{ business?.telNo }}</p>
+                <mat-card class="menu">
+                    <table>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Note</th>
+                            <th>Price(RM)</th>
+                            <th>Quantity</th>
+                        </tr>
+                        <tr *ngFor="let menuItem of menuItems">
+                            <td>{{ menuItem.itemName }}</td>
+                            <td>{{ menuItem.note }}</td>
+                            <td>{{ menuItem.price }}</td>
+                            <td>{{ menuItem.quantity }}</td>
+                        </tr>
+                    </table>
+                </mat-card>
+                <p id="textarea">{{ business?.description }}</p>
+                <div id="datePublished">Published on {{ business?.datePublished | date:'d MMM, yyyy' }}</div>
+            </div>
+        </div>
+
+        <div class="order-card">
+            <div class="overflow-container">
+                <button mat-raised-button color="accent" (click)="downloadPDF()">Download PDF</button>
+                <div class="mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" id="orderTable">
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="fullName">
+                            <th mat-header-cell *matHeaderCellDef> Full Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.userDetails.fullName}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="telNo">
+                            <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+                            <td mat-cell *matCellDef="let element"> {{element.userDetails.telNo}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="address">
+                            <th mat-header-cell *matHeaderCellDef> Address </th>
+                            <td mat-cell *matCellDef="let element"> {{element.billingAddress}} </td>
+                        </ng-container>
+    
+                        <!-- details -->
+                        <ng-container matColumnDef="details">
+                            <th mat-header-cell *matHeaderCellDef>Item Details</th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="item-table">
+                                    <thead>
+                                        <th>Name</th>
+                                        <th>Note</th>
+                                        <th>Qty</th>
+                                    </thead>
+                                    <tbody *ngFor="let element of element.orderedItem">
+                                        <tr>
+                                            <td id="name">{{element.itemName}}</td>
+                                            <td id="note">{{element.note}}</td>
+                                            <td id="quantity">{{element.quantity}}</td>
+                                        </tr>
+                                    </tbody>
+                                </div>
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef> Status </th>
+                            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="datePurchased">
+                            <th mat-header-cell *matHeaderCellDef> Purchase Date </th>
+                            <td mat-cell *matCellDef="let element"> {{element.datePurchased | date:'dd/MM/yyyy'}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef> Action </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="action-buttons">
+                                    <button class="delivered-button" mat-raised-button (click)="updateOrderStatus(element.orderId, 'delivered')">Mark as Delivered</button>
+                                    <button class="cancelled-button" mat-raised-button (click)="updateOrderStatus(element.orderId, 'cancelled')">Mark as Cancelled</button> 
+                                </div>
+                            </td>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+            <mat-paginator [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>
+    </div>
+</body>

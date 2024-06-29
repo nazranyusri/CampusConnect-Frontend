@@ -1,0 +1,73 @@
+<body>
+    <h2>Update your profile</h2>
+    <div class="update-form">
+        <form [formGroup]="userForm">
+            <div class="upper-section">
+                <!-- Email -->
+                <p>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <mat-label>Email</mat-label>
+                        <mat-icon matPrefix>email</mat-icon>
+                        <input matInput formControlName="email" readonly>
+                    </mat-form-field>
+                </p>
+                <!-- Username -->
+                <p>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <mat-label>Username</mat-label>
+                        <mat-icon matPrefix>person</mat-icon>
+                        <input matInput formControlName="username" required>
+                    </mat-form-field>
+                </p>
+                <!-- Full name -->
+                <p>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <mat-label>Full name</mat-label>
+                        <mat-icon matPrefix>person</mat-icon>
+                        <input matInput formControlName="fullName" required>
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <div class="lower-section">
+                <!-- Matric no -->
+                <p>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <mat-label>Matric no.</mat-label>
+                        <mat-icon matPrefix>assignment</mat-icon>
+                        <input matInput formControlName="matricNo" required>
+                    </mat-form-field>
+                </p>
+                <!-- Tel no -->
+                <p>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <mat-label>Telephone no.</mat-label>
+                        <mat-icon matPrefix>call</mat-icon>
+                        <input matInput formControlName="telNo" required>
+                    </mat-form-field>
+                </p>
+
+                <!-- Upload photo -->
+                <div class="image-section">
+                    <div class="image-wrapper">
+                        <img [src]="imagePath" alt="profile image" *ngIf="image; else noImage">
+                        <ng-template #noImage>
+                            <span fxLayoutAlign="center center" style="height: 100%;"><p>Image preview</p></span>
+                        </ng-template>
+                    </div>
+                    <div class="image-upload">
+                        <p>
+                            <label class="form-label" for="customFile">Upload a photo</label>
+                            <input type="file" formControlName="image" (change)="onImageSelected($event)" class="form-control" accept=".png, .jpg"/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="button-section">
+        <button mat-raised-button routerLinkActive routerLink="/profile">Cancel</button>
+        <button mat-raised-button [disabled]="!(userForm.valid && userForm.dirty)" (click)="updateProfile()" class="custom-button">Submit</button>
+        <br><br>
+    </div>
+</body>

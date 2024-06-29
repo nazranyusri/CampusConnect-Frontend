@@ -1,0 +1,56 @@
+<body>
+    <div class="header">
+        <mat-card>
+            <mat-card-content>
+                <div class="pageTitle"><img src="assets\resources\businessTitle.png" alt="Discover upcoming business"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="detailed-content">
+        <mat-card>
+            <div class="postedby-background"></div>
+            <div class="postedby">
+                <div class="profile-picture">
+                  <div class="image-wrapper">
+                    <img mat-card-image [src]="business?.profileImage ? business.profileImage : defaultAvatar">
+                  </div>
+                </div>
+                <div class="username"><strong>{{business?.createdBy}}</strong> posted this.</div>
+            </div>
+            <div class="upper-section">
+                <div class="image-wrapper">
+                    <img [src]="business?.image">
+                </div>
+                <div class="content-details">
+                    <p id="title">{{ business?.businessTitle }}</p>
+                    <span id="tag">{{ business?.tag }}</span>
+                    <p id="first-item"><mat-icon>person</mat-icon>{{ business?.telName }}</p>
+                    <p><mat-icon>call</mat-icon>{{ business?.telNo }}</p>
+                    <mat-card class="menu">
+                        <table>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Note</th>
+                                <th>Price(RM)</th>
+                                <th>Quantity</th>
+                            </tr>
+                            <tr *ngFor="let menuItem of menuItems">
+                                <td>{{ menuItem.itemName }}</td>
+                                <td>{{ menuItem.note }}</td>
+                                <td>{{ menuItem.price }}</td>
+                                <td>{{ menuItem.quantity }}</td>
+                            </tr>
+                        </table>
+                    </mat-card>
+                    <ng-container *ngIf="userId !== business?.userId">
+                        <!-- <a mat-raised-button [routerLink]="['/checkout', business?.businessId]">Buy now!</a> -->
+                        <a mat-raised-button (click)="openCheckoutDialog()">Buy now!</a>
+
+                    </ng-container>
+                    <p id="textarea">{{ business?.description }}</p>
+                </div>
+            </div>
+            <div id="datePublished">Published on {{ business?.datePublished | date:'d MMM, yyyy' }}</div>
+        </mat-card>
+    </div>
+</body>

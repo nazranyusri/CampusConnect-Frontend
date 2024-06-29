@@ -1,0 +1,44 @@
+<body>
+    <h2>Update PERSAKA page</h2>
+    <div class="update-form">
+        <form [formGroup]="persakaForm">
+            <div class="upper-section">
+                <!-- Title -->
+                <p>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <mat-label>Page title</mat-label>
+                        <mat-icon matPrefix>title</mat-icon>
+                        <input matInput formControlName="title" required>
+                    </mat-form-field>
+                </p>
+                <!-- Upload photo -->
+                <div class="image-section">
+                    <div class="image-wrapper">
+                        <img [src]="imagePath" alt="PERSAKA image">
+                    </div>
+                    <div class="image-upload">
+                        <p>
+                            <label class="form-label" for="customFile">Upload a photo</label>
+                            <input type="file" formControlName="image" (change)="onImageSelected($event)" class="form-control" accept=".png, .jpg"/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lower-section">
+                <!-- Description -->
+                <p>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput formControlName="description" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="9" cdkAutosizeMaxRows="9" maxlength="500"></textarea>
+                    </mat-form-field>
+                </p>
+            </div>
+        </form>
+    </div>
+    <div class="button-section">
+        <button mat-raised-button routerLinkActive routerLink="/persaka">Cancel</button>
+        <button mat-raised-button [disabled]="!(persakaForm.valid && persakaForm.dirty)" (click)="updatePersaka()" class="custom-button">Submit</button>
+        <br><br>
+    </div>
+</body>

@@ -1,0 +1,97 @@
+<body>
+    <div class="white-section" fxShow="true" fxHide.lt-md></div>
+    <div class="register-section">
+        <div class="back-button"><button mat-icon-button routerLink="/login"><mat-icon>keyboard_backspace</mat-icon></button></div>
+        <form [formGroup]="registerForm">
+            <h2>Join us!</h2>
+            <p style="font-size: smaller; margin-bottom: 30px;">If you want to register for a club account, please <a href="/registerclub">click here</a>.</p>
+            <div class="input-section">
+                <!-- Username -->
+                <p>
+                    <mat-form-field appearance="outline" fxFlex class="custom-outline">
+                        <mat-label>Username</mat-label>
+                        <mat-icon matPrefix>person</mat-icon>
+                        <input matInput formControlName="username" required>
+                        <mat-error *ngIf="registerForm.controls.username.touched && registerForm.controls.username.invalid">
+                            <span *ngIf="registerForm.controls.username.errors.required">Username is required</span>
+                            <span *ngIf="registerForm.controls.username.errors.pattern">Username is invalid</span>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <!-- Full name -->
+                <p>
+                    <mat-form-field appearance="outline" fxFlex class="custom-outline">
+                        <mat-label>Full name</mat-label>
+                        <mat-icon matPrefix>person</mat-icon>
+                        <input matInput formControlName="fullName" required>
+                        <mat-error *ngIf="registerForm.controls.fullName.touched && registerForm.controls.fullName.invalid">
+                            <span *ngIf="registerForm.controls.fullName.errors.required">Full name is required</span>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <!-- Matric No -->
+                <p>
+                    <mat-form-field appearance="outline" fxFlex class="custom-outline">
+                        <mat-label>Matric No.</mat-label>
+                        <mat-icon matPrefix>assignment</mat-icon>
+                        <input matInput formControlName="matricNo" required>
+                        <mat-error *ngIf="registerForm.controls.matricNo.touched && registerForm.controls.matricNo.invalid">
+                            <span *ngIf="registerForm.controls.matricNo.errors.required">Matric no. is required</span>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <!-- Tel No -->
+                <p>
+                    <mat-form-field appearance="outline" fxFlex class="custom-outline">
+                        <mat-label>Contact number</mat-label>
+                        <mat-icon matPrefix>phone</mat-icon>
+                        <input matInput formControlName="telNo" required>
+                        <mat-error *ngIf="registerForm.controls.telNo.touched && registerForm.controls.telNo.invalid">
+                            <span *ngIf="registerForm.controls.telNo.errors.required">Contact number is required</span>
+                            <span *ngIf="registerForm.controls.telNo.errors.pattern">Contact number is invalid</span>
+                        </mat-error>
+                    </mat-form-field>
+                <p>
+                    <!-- Email -->
+                <p>
+                    <mat-form-field appearance="outline" fxFlex class="custom-outline">
+                        <mat-label>Email</mat-label>
+                        <mat-icon matPrefix>mail</mat-icon>
+                        <input matInput formControlName="email" required>
+                        <mat-error *ngIf="registerForm.controls.email.touched && registerForm.controls.email.invalid">
+                            <span *ngIf="registerForm.controls.email.errors.required">Email is required</span>
+                            <span *ngIf="registerForm.controls.email.errors.pattern">Email is invalid</span>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <!-- Password -->
+                <p>
+                    <mat-form-field appearance="outline" fxFlex class="custom-outline">
+                        <mat-label>Password</mat-label>
+                        <mat-icon matPrefix>lock</mat-icon>
+                        <input matInput formControlName="password" required>
+                        <mat-error *ngIf="registerForm.controls.password.touched && registerForm.controls.password.invalid">
+                            <span *ngIf="registerForm.controls.password.errors.required">Password is required</span>
+                            <span *ngIf="registerForm.controls.password.errors.pattern">Password is invalid</span>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <!-- Re-enter password -->
+                <p>
+                    <mat-form-field appearance="outline" fxFlex class="custom-outline">
+                        <mat-label>Re-enter password</mat-label>
+                        <mat-icon matPrefix>lock</mat-icon>
+                        <input matInput formControlName="confirmPassword" required>
+                        <mat-error *ngIf="registerForm.controls.confirmPassword.touched && registerForm.controls.confirmPassword.invalid">
+                            <span *ngIf="registerForm.controls.confirmPassword.errors.required">Re-enter password is required</span>
+                            <span *ngIf="registerForm.controls.confirmPassword.errors?.['passwordMatchValidator']">Passwords did not match</span>
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+            </div>
+            <button mat-raised-button [disabled]="!(registerForm.valid && registerForm.dirty)" (click)="register()" class="custom-button">Register</button>
+            <br><br>
+            <p class="login">Already have an account? <a routerLink="/login">Log in</a></p>
+        </form>
+    </div>
+</body>

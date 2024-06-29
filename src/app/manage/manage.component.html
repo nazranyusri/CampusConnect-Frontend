@@ -1,0 +1,296 @@
+<body>
+    <h4>CampusConnect Management</h4>
+    <mat-accordion>
+        <!-- Approve club request -->
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Club account request
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="search-bar">
+                <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                    <input matInput placeholder="Search by username or fullname..." [(ngModel)]="clubSearchKey">
+                </mat-form-field>
+            </div>
+            <div class="table">
+                <table mat-table [dataSource]="clubDataSource.data | clubQuery : clubSearchKey" id="clubTable">
+                    <ng-container matColumnDef="position">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="username">
+                        <th mat-header-cell *matHeaderCellDef> Username </th>
+                        <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fullName">
+                        <th mat-header-cell *matHeaderCellDef> Full Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="telNo">
+                        <th mat-header-cell *matHeaderCellDef> Tel No </th>
+                        <td mat-cell *matCellDef="let element"> {{element.telNo}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef> Email </th>
+                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Approve / Reject </th>
+                        <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button (click)="approveClubRequest(element.userId)">
+                            <mat-icon>check</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="deleteUser(element.userId, element.image)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        </td>
+                    </ng-container>
+                    
+                    <tr mat-header-row *matHeaderRowDef="clubDisplayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: clubDisplayedColumns;"></tr>
+                </table>
+            </div>
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons></mat-paginator>
+        </mat-expansion-panel>
+
+        <!-- Manage users -->
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Manage users
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="search-bar">
+                <div class="bar" fxFlex>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <input matInput placeholder="Search by username or fullname..." [(ngModel)]="userSearchKey">
+                    </mat-form-field>
+                </div>
+                <div class="filter">
+                    <button mat-raised-button (click)="filterUserByRole('')" [ngClass]="{'active': userFilterOption === ''}">All</button>
+                    <button mat-raised-button (click)="filterUserByRole('club')" [ngClass]="{'active': userFilterOption === 'club'}">Club</button>
+                    <button mat-raised-button (click)="filterUserByRole('user')" [ngClass]="{'active': userFilterOption === 'user'}">Student</button>
+                </div>
+            </div>
+            <div class="table">
+                <table mat-table [dataSource]="userDataSource.data | userQuery : userSearchKey : userFilterOption" id="userTable">
+                    <ng-container matColumnDef="position">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="username">
+                        <th mat-header-cell *matHeaderCellDef> Username </th>
+                        <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fullName">
+                        <th mat-header-cell *matHeaderCellDef> Full Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="matricNo">
+                        <th mat-header-cell *matHeaderCellDef> Matric No </th>
+                        <td mat-cell *matCellDef="let element"> {{element.matricNo}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef> Email </th>
+                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Delete </th>
+                        <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button color="warn" [disabled]="element.isDeletable !== 'true'" (click)="deleteUser(element.userId, element.image)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="userDisplayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: userDisplayedColumns;"></tr>
+                </table>
+            </div>
+        </mat-expansion-panel>
+
+        <!-- Manage posts -->
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Manage posts
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="search-bar">
+                <div class="bar" fxFlex>
+                    <mat-form-field appearance="fill" fxFlex class="custom-fill">
+                        <input matInput placeholder="Search by title..." [(ngModel)]="postSearchKey">
+                      </mat-form-field>
+                </div>
+                <div class="filter">
+                    <button mat-raised-button (click)="tableToDisplay('program')" [ngClass]="{'active': tableChosen === 'program'}">Program</button>
+                    <button mat-raised-button (click)="tableToDisplay('business')" [ngClass]="{'active': tableChosen === 'business'}">Business</button>
+                    <button mat-raised-button (click)="tableToDisplay('survey')" [ngClass]="{'active': tableChosen === 'survey'}">Survey</button>
+                </div>
+            </div>
+
+            <!-- Program table -->
+             <ng-container *ngIf="tableChosen === 'program'">
+                <div class="table">
+                    <table mat-table [dataSource]="programDataSource.data | postQuery : postSearchKey" id="programTable">
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="programTitle">
+                            <th mat-header-cell *matHeaderCellDef> Title </th>
+                            <td mat-cell *matCellDef="let element"> {{element.programTitle | truncate: 10 }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="createdBy">
+                            <th mat-header-cell *matHeaderCellDef> Creator </th>
+                            <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef> Date </th>
+                            <td mat-cell *matCellDef="let element"> {{element.startDate  | date:'dd/MM/yyyy'}} - {{element.endDate  | date:'dd/MM/yyyy'}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="time">
+                            <th mat-header-cell *matHeaderCellDef> Time </th>
+                            <td mat-cell *matCellDef="let element"> {{element.startTime}} - {{element.endTime}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef> Description </th>
+                            <td mat-cell *matCellDef="let element"> {{element.description | truncate: 10 }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="telNo">
+                            <th mat-header-cell *matHeaderCellDef> Tel No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.telNo}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="datePublished">
+                            <th mat-header-cell *matHeaderCellDef> Date Published </th>
+                            <td mat-cell *matCellDef="let element"> {{element.datePublished | date:'dd/MM/yyyy'}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef> Delete </th>
+                            <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button color="warn" (click)="deleteProgram(element.programId, element.image)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            </td>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="programDisplayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: programDisplayedColumns;"></tr>
+                    </table>
+                </div>
+             </ng-container>
+
+            <!-- Business table -->
+            <ng-container *ngIf="tableChosen === 'business'">
+                <div class="table">
+                    <table mat-table [dataSource]="businessDataSource.data | postQuery : postSearchKey" id="businessTable">
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="businessTitle">
+                            <th mat-header-cell *matHeaderCellDef> Title </th>
+                            <td mat-cell *matCellDef="let element"> {{element.businessTitle | truncate: 10 }} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="createdBy">
+                            <th mat-header-cell *matHeaderCellDef> Creator </th>
+                            <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef> Description </th>
+                            <td mat-cell *matCellDef="let element"> {{element.description | truncate: 10 }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="datePublished">
+                            <th mat-header-cell *matHeaderCellDef> Date Published </th>
+                            <td mat-cell *matCellDef="let element"> {{element.datePublished | date:'dd/MM/yyyy'}} </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef> Delete </th>
+                            <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button color="warn" (click)="deleteBusiness(element.businessId, element.image)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            </td>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="businessDisplayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: businessDisplayedColumns;"></tr>
+                    </table>
+                </div>
+             </ng-container>
+
+            <!-- Survey table -->
+            <ng-container *ngIf="tableChosen === 'survey'">
+                <div class="table">
+                    <table mat-table [dataSource]="surveyDataSource.data | postQuery : postSearchKey" id="surveyTable">
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="surveyTitle">
+                            <th mat-header-cell *matHeaderCellDef> Title </th>
+                            <td mat-cell *matCellDef="let element"> {{element.surveyTitle | truncate: 10 }} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="createdBy">
+                            <th mat-header-cell *matHeaderCellDef> Creator </th>
+                            <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef> Description </th>
+                            <td mat-cell *matCellDef="let element"> {{element.description | truncate: 10 }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="time">
+                            <th mat-header-cell *matHeaderCellDef> Time </th>
+                            <td mat-cell *matCellDef="let element"> {{element.time}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="datePublished">
+                            <th mat-header-cell *matHeaderCellDef> Date Published </th>
+                            <td mat-cell *matCellDef="let element"> {{element.datePublished | date:'dd/MM/yyyy'}} </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef> Delete </th>
+                            <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button color="warn" (click)="deleteSurvey(element.surveyId)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            </td>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="surveyDisplayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: surveyDisplayedColumns;"></tr>
+                    </table>
+                </div>
+            </ng-container>
+        </mat-expansion-panel>
+    </mat-accordion>
+</body>

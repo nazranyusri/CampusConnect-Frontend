@@ -1,0 +1,33 @@
+<body>
+    <div class="white-section" fxShow="true" fxHide.lt-md></div>
+    <div class="login-section">
+        <div class="back-button"><button mat-icon-button routerLink="/"><mat-icon>keyboard_backspace</mat-icon></button></div>
+        <form [formGroup]="loginForm">
+            <h2>Welcome back!</h2><br>
+            <p>
+                <mat-form-field appearance="outline" fxFlex class="custom-outline">
+                    <mat-label>Email</mat-label>
+                    <mat-icon matPrefix>person</mat-icon>
+                    <input matInput formControlName="email" required class="custom-input">
+                    <mat-error *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
+                        <span *ngIf="loginForm.controls.email.errors.required">Email is required</span>
+                        <span *ngIf="loginForm.controls.email.errors.pattern">Email is invalid</span>
+                    </mat-error>
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field appearance="outline" fxFlex class="custom-outline">
+                    <mat-label>Password</mat-label>
+                    <mat-icon matPrefix>lock</mat-icon>
+                    <input matInput formControlName="password" required>
+                    <mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+                        <span *ngIf="loginForm.controls.password.errors.required">Password is required</span>
+                    </mat-error>
+                </mat-form-field>
+            </p>
+            <button mat-raised-button [disabled]="!(loginForm.valid && loginForm.dirty)" (click)="login()" class="custom-button">Login</button>
+            <br><br>
+            <p class="register">Didn't have an account? <a routerLink="/register">Register</a></p>
+        </form>
+    </div>
+</body>

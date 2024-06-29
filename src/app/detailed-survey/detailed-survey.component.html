@@ -1,0 +1,34 @@
+<body>
+    <div class="header">
+        <mat-card>
+            <mat-card-content>
+                <div class="pageTitle"><img src="assets\resources\surveyTitle.png" alt="Discover upcoming survey"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="detailed-content">
+        <mat-card>
+            <div class="upper-section">
+                <div class="content-details">
+                    <div class="postedby-background"></div>
+                    <div class="postedby">
+                        <div class="profile-picture">
+                          <div class="image-wrapper">
+                            <img mat-card-image [src]="survey?.profileImage ? survey.profileImage : defaultAvatar" class="custom-picture">
+                          </div>
+                        </div>
+                        <div class="username"><strong>{{survey?.createdBy}}</strong> posted this.</div>
+                    </div>
+                    <p id="title">{{ survey?.surveyTitle }}</p>
+                    <p id="first-item"><mat-icon>person</mat-icon>{{ survey?.fullName }}</p>
+                    <p><mat-icon>access_time</mat-icon> Approximately {{ survey?.time }} minute(s) to complete the survey</p>
+                    <ng-container *ngIf="userId !== survey?.userId">
+                        <a mat-raised-button [href]="survey?.surveyLink" target="_blank">Help answer my survey!</a>
+                    </ng-container>
+                    <p id="textarea">{{ survey?.description }}</p>
+                </div>
+            </div>
+            <div id="datePublished">Published on {{ survey?.datePublished | date:'d MMM, yyyy' }}</div>
+        </mat-card>
+    </div>
+</body>

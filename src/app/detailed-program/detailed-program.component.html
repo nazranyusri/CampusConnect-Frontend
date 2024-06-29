@@ -1,0 +1,41 @@
+<body>
+    <div class="header">
+        <mat-card>
+            <mat-card-content>
+                <div class="pageTitle"><img src="assets\resources\programTitle.png" alt="Discover upcoming program"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="detailed-content">
+        <mat-card>
+            <div class="postedby-background"></div>
+            <div class="postedby">
+                <div class="profile-picture">
+                  <div class="image-wrapper">
+                    <img mat-card-image [src]="program?.profileImage ? program.profileImage : defaultAvatar" class="custom-picture">
+                  </div>
+                </div>
+                <div class="username"><strong>{{program?.createdBy}}</strong> posted this.</div>
+            </div>
+            <div class="upper-section">
+                <div class="image-wrapper">
+                    <img [src]="program?.image">
+                </div>
+                <div class="content-details">
+                    <p id="title">{{ program?.programTitle }}</p>
+                    <span id="tag">{{ program?.tag }}</span>
+                    <p id="first-item"><mat-icon> location_on</mat-icon>{{ program?.location }}</p>
+                    <p><mat-icon>calendar_today</mat-icon>{{ program?.startDate | date:'dd/MM/yyyy' }} - {{ program?.endDate | date:'dd/MM/yyyy' }}</p>
+                    <p><mat-icon>access_time</mat-icon>{{ program?.startTime }} - {{ program?.endTime }}</p>
+                    <p><mat-icon>person</mat-icon>{{ program?.telName }}</p>
+                    <p><mat-icon>call</mat-icon>{{ program?.telNo }}</p>
+                    <ng-container *ngIf="!isAuthorized && isLoggedIn">
+                        <a mat-raised-button (click)="registerProgram(program.programId)">Register now!</a>
+                    </ng-container>
+                    <p id="textarea">{{ program?.description }}</p>
+                </div>
+            </div>
+            <div id="datePublished">Published on {{ program?.datePublished | date:'d MMM, yyyy' }}</div>
+        </mat-card>
+    </div>
+</body>

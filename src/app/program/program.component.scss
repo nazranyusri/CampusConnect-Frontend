@@ -1,0 +1,160 @@
+@import '../../search-header.scss';
+@import '../../add-item.scss';
+
+body {
+    margin: 0;
+    padding: 20px;
+    color: white;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #1D203E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 1140px;
+    gap: 15px;
+
+    mat-card {
+        width: 100%;
+        max-width: 370px;
+        background-color: #1E1E1E;
+        height: auto;
+        border-radius: 15px;
+        transition: transform 0.3s;
+        cursor: pointer;
+
+        &:hover {
+            transform: scale(1.01);
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* 1:1 Aspect Ratio */
+            overflow: hidden;
+
+            .postedby-background {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 50px;
+                background-color: white;
+                opacity: 0.7;
+                z-index: 1;
+            }
+
+            .postedby {
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                display: block;
+                width: 100%;
+                padding: 5px 10px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                box-sizing: border-box;
+                z-index: 9999;
+
+                .profile-picture {
+                    .image-wrapper {
+                        width: 40px;
+                        height: 40px;
+                        position: relative;
+                        padding-top: 100%; /* 1:1 Aspect Ratio */
+                        overflow: hidden;
+
+                        img {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            border-radius: 50%;
+                        }
+                    }
+                }
+
+                .username {
+                    font-size: small;
+                    font-weight: bolder;
+                    color: black;
+                }
+            }
+        
+            img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 15px 15px 0px 0px;
+            }
+        }
+        
+        mat-card-title a {
+            color: map-get($custom-accent-pallette, 500) !important;
+            font-weight: bolder;
+            font-size: 1.3em;
+            text-decoration: none;
+        }
+
+        @media screen and (max-width: 1280px) {
+            mat-card-title a {
+              text-decoration: underline;
+            }
+        }
+
+        mat-card-header {
+            padding: 10px;
+        }
+
+        mat-card-content {
+            padding-left: 10px;
+            padding-bottom: 2px;
+        }
+
+        p {
+            display: flex;
+        }
+
+        mat-icon {
+            margin-right: 15px;
+        }
+
+        #datePublished {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            font-size: x-small;
+            font-style: italic;
+            color: gray;
+            padding: 10px 10px 5px 0px;
+        }
+    }
+
+    .empty-results {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 1192px) {
+    .content-container {
+      max-width: 760px;
+    }
+}
+
+@media screen and (max-width: 810px) {
+    .content-container {
+      max-width: 360px;
+    }
+}

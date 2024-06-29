@@ -1,0 +1,158 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+html, body { height: 100%; width: 100%; }
+body {
+  margin: 0;
+  font-family: Poppins, sans-serif;
+}
+
+mat-error {
+  font-size: small;
+}
+
+// Define custom color palettes
+$custom-primary-pallette: (
+  50: #2c2f48, // Primary color
+  100: #353854,
+  200: #3f435f,
+  300: #484a6a,
+  400: #525277,
+  500: #5b5982,
+  600: #65648d,
+  700: #6e6c98,
+  800: #7873a3,
+  900: #817bac,
+  contrast: (
+    50: #000,
+    100: #000,
+    200: #000,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+// $custom-accent-palette: (
+//   50: #e0e0e0,
+//   100: #b3b3b3,
+//   200: #808080,
+//   300: #4d4d4d,
+//   400: #262626,
+//   500: #1E1F1E, // Accent color
+//   600: #1a1a1a,
+//   700: #141414,
+//   800: #0f0f0f,
+//   900: #050505,
+//   contrast: (
+//     50: #000,
+//     100: #000,
+//     200: #000,
+//     300: white,
+//     400: white,
+//     500: white,
+//     600: white,
+//     700: white,
+//     800: white,
+//     900: white,
+//   ),
+// );
+
+$custom-accent-pallette: (
+  50: #fde8d1,
+  100: #fbce9f,
+  200: #f9b26b,
+  300: #f79537,
+  400: #f57d11,
+  500: #F38D11, // Accent color
+  600: #ec740d,
+  700: #e45a0a,
+  800: #dd4106,
+  900: #d32402,
+  contrast: (
+    50: #000,
+    100: #000,
+    200: #000,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$custom-success-pallette: (
+  50: #e8f5e9,
+  100: #c8e6c9,
+  200: #a5d6a7,
+  300: #81c784,
+  400: #66bb6a,
+  500: #4caf50,
+  600: #43a047,
+  700: #388e3c,
+  800: #2e7d32,
+  900: #1b5e20,
+  contrast: (
+    50: #000,
+    100: #000,
+    200: #000,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$custom-warn-pallette: (
+  50: #ffebee,
+  100: #ffcdd2,
+  200: #ef9a9a,
+  300: #e57373,
+  400: #ef5350,
+  500: #f44336,
+  600: #e53935,
+  700: #d32f2f,
+  800: #c62828,
+  900: #B00020, // Warn color
+  contrast: (
+    50: #000,
+    100: #000,
+    200: #000,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$custom-primary: mat.define-palette($custom-primary-pallette);
+$custom-accent: mat.define-palette($custom-accent-pallette);
+$custom-warn: mat.define-palette($custom-warn-pallette);
+$custom-success: mat.define-palette($custom-success-pallette);
+
+// Create the theme object
+$Frontend-theme: mat.define-light-theme((
+  color: (
+    primary: $custom-primary,
+    accent: $custom-accent,
+    warn: $custom-warn,
+    success: $custom-success
+  ),
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($Frontend-theme);
