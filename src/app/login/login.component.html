@@ -19,7 +19,7 @@
                 <mat-form-field appearance="outline" fxFlex class="custom-outline">
                     <mat-label>Password</mat-label>
                     <mat-icon matPrefix>lock</mat-icon>
-                    <input matInput formControlName="password" required>
+                    <input matInput type="password" formControlName="password" required>
                     <mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
                         <span *ngIf="loginForm.controls.password.errors.required">Password is required</span>
                     </mat-error>

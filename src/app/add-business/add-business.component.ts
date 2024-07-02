@@ -37,6 +37,7 @@ export class AddBusinessComponent implements OnInit {
       tag: ['', Validators.required],
       image: ['', Validators.required],
       description: ['', Validators.required],
+      acceptOrder: [false],
       items: this.formBuilder.array([])
     });
 
@@ -50,8 +51,8 @@ export class AddBusinessComponent implements OnInit {
   addItem() {
     const itemGroup = this.formBuilder.group({
       itemName: ['', Validators.required],
-      price: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]], // Numeric value with optional two decimal places
-      quantity: ['', [Validators.required, Validators.pattern(/^\d+$/)]], // Numeric value
+      price: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]], 
+      quantity: ['', [Validators.required, Validators.pattern(/^[\d-]+$/)]], 
       note: ['']
     });
     this.items.push(itemGroup);
@@ -94,6 +95,7 @@ export class AddBusinessComponent implements OnInit {
       formData.append('image', this.image);
       formData.append('description', this.businessForm.get('description').value);
       formData.append('datePublished', new Date().toISOString());
+      formData.append('acceptOrder', this.businessForm.get('acceptOrder').value);
 
       const items = this.businessForm.get('items')!.value;
       formData.append('items', JSON.stringify(items));

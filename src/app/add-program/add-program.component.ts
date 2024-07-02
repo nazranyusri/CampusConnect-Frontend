@@ -38,7 +38,8 @@ export class AddProgramComponent implements OnInit {
       telNo: ['', [Validators.required, Validators.pattern(GlobalConstants.phoneRegex)]],
       image: ['', Validators.required],
       description: ['', Validators.required],
-      tag: ['', Validators.required]
+      tag: ['', Validators.required],
+      acceptRegistration: [false]
     },
     {
       validators: this.timeRangeValidator('startTime', 'endTime'),
@@ -103,10 +104,11 @@ export class AddProgramComponent implements OnInit {
       formData.append('description', this.programForm.get('description').value);
       formData.append('tag', this.programForm.get('tag').value);
       formData.append('datePublished', new Date().toISOString());
-
-      formData.forEach((value, key) => {
+      formData.append('acceptRegistration', this.programForm.get('acceptRegistration').value);
+      
+      // formData.forEach((value, key) => {
         // console.log(`${key}:`, value);
-      });
+      // });
 
       this.programService.addProgram(formData).subscribe((result: any) => {
         this.ngxService.stop();

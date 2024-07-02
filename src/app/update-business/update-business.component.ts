@@ -47,6 +47,7 @@ export class UpdateBusinessComponent {
       tag: ['', Validators.required],
       telNo: ['', [Validators.required, Validators.pattern(GlobalConstants.phoneRegex)]],
       description: ['', Validators.required],
+      acceptOrder: [],
       items: this.formBuilder.array([])
     });
 
@@ -61,7 +62,7 @@ export class UpdateBusinessComponent {
     const itemGroup = this.formBuilder.group({
       itemName: ['', Validators.required],
       price: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]], // Numeric value with optional two decimal places
-      quantity: ['', [Validators.required, Validators.pattern(/^\d+$/)]], // Numeric value
+      quantity: ['', [Validators.required, Validators.pattern(/^[\d-]+$/)]], 
       note: ['']
     });
     this.items.push(itemGroup);
@@ -90,7 +91,8 @@ export class UpdateBusinessComponent {
           location: business.location,
           tag: business.tag,
           telNo: business.telNo,
-          description: business.description
+          description: business.description,
+          acceptOrder: business.isAcceptOrder  === 'true'
         });
         this.image = business.image;
         this.imagePath = `${environment.apiUrl}/${this.image}`;
@@ -149,6 +151,7 @@ export class UpdateBusinessComponent {
       formData.append('image', this.image);
       formData.append('description', this.businessForm.get('description').value);
       formData.append('datePublished', new Date().toISOString());
+      formData.append('acceptOrder', this.businessForm.get('acceptOrder').value);
 
       const items = this.businessForm.get('items')!.value;
       formData.append('items', JSON.stringify(items));

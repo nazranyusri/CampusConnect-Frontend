@@ -30,7 +30,15 @@
                     <p><mat-icon>person</mat-icon>{{ program?.telName }}</p>
                     <p><mat-icon>call</mat-icon>{{ program?.telNo }}</p>
                     <ng-container *ngIf="!isAuthorized && isLoggedIn">
-                        <a mat-raised-button (click)="registerProgram(program.programId)">Register now!</a>
+                        <div *ngIf="program?.isRegister == 'true'; else noRegistration">
+                            <a mat-raised-button (click)="registerProgram(program.programId)">Register now!</a>
+                        </div>
+                        <ng-template #noRegistration>
+                            <!-- <a mat-raised-button disabled>Registration closed</a> -->
+                             <div class="noregistration">
+                                <p fxLayoutAlign="center center">Currently not accepting registrations!</p>
+                             </div>
+                        </ng-template>
                     </ng-container>
                     <p id="textarea">{{ program?.description }}</p>
                 </div>

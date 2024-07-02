@@ -68,7 +68,7 @@ export class DetailedProgramComponent implements OnInit {
           result.profileImage = `${environment.apiUrl}/${result.profileImage}`;
         }
         // console.log(this.program.image);
-        // console.log(result);
+        console.log(result);
       },
       (error: any) => {
         this.ngxService.stop();

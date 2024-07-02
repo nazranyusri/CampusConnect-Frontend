@@ -42,10 +42,16 @@
                             </tr>
                         </table>
                     </mat-card>
-                    <ng-container *ngIf="userId !== business?.userId">
-                        <!-- <a mat-raised-button [routerLink]="['/checkout', business?.businessId]">Buy now!</a> -->
-                        <a mat-raised-button (click)="openCheckoutDialog()">Buy now!</a>
-
+                    <ng-container *ngIf="userId !== business?.userId && isLoggedIn">
+                        <div *ngIf="business?.isAcceptOrder == 'true'; else noOrders">
+                            <a mat-raised-button (click)="openCheckoutDialog()">Buy now!</a>
+                        </div>
+                        <ng-template #noOrders>
+                            <!-- <a mat-raised-button disabled>Registration closed</a> -->
+                             <div class="noorder">
+                                <p fxLayoutAlign="center center">Currently not accepting orders!</p>
+                             </div>
+                        </ng-template>
                     </ng-container>
                     <p id="textarea">{{ business?.description }}</p>
                 </div>

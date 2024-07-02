@@ -69,7 +69,7 @@
                     <mat-form-field appearance="outline" fxFlex class="custom-outline">
                         <mat-label>Password</mat-label>
                         <mat-icon matPrefix>lock</mat-icon>
-                        <input matInput formControlName="password" required>
+                        <input matInput type="password" formControlName="password" required>
                         <mat-error *ngIf="registerForm.controls.password.touched && registerForm.controls.password.invalid">
                             <span *ngIf="registerForm.controls.password.errors.required">Password is required</span>
                             <span *ngIf="registerForm.controls.password.errors.pattern">Password is invalid</span>
@@ -81,7 +81,7 @@
                     <mat-form-field appearance="outline" fxFlex class="custom-outline">
                         <mat-label>Re-enter password</mat-label>
                         <mat-icon matPrefix>lock</mat-icon>
-                        <input matInput formControlName="confirmPassword" required>
+                        <input matInput type="password" formControlName="confirmPassword" required>
                         <mat-error *ngIf="registerForm.controls.confirmPassword.touched && registerForm.controls.confirmPassword.invalid">
                             <span *ngIf="registerForm.controls.confirmPassword.errors.required">Re-enter password is required</span>
                             <span *ngIf="registerForm.controls.confirmPassword.errors?.['passwordMatchValidator']">Passwords did not match</span>

@@ -201,3 +201,7 @@ body {
     --mat-radio-checked-ripple-color: white !important;
     --mat-radio-disabled-label-color: white !important;
 }
+
+::ng-deep .mat-mdc-slide-toggle .mdc-form-field{
+    color: white !important;
+}

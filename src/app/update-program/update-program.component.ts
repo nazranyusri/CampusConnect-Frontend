@@ -7,11 +7,13 @@ import { SnackbarService } from '../services/snackbar.service';
 import { JwtDecoderService } from '../services/jwt-decoder.service';
 import { GlobalConstants } from '../shared/global-constants';
 import { environment } from 'src/environments/environment';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-update-program',
   templateUrl: './update-program.component.html',
-  styleUrls: ['./update-program.component.scss']
+  styleUrls: ['./update-program.component.scss'],
+  providers: [DatePipe]
 })
 export class UpdateProgramComponent {
   userId: number = 0;
@@ -28,7 +30,8 @@ export class UpdateProgramComponent {
     private snackbarService: SnackbarService,
     private route: ActivatedRoute,
     private router: Router,
-    private jwtDecode: JwtDecoderService
+    private jwtDecode: JwtDecoderService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
@@ -50,7 +53,8 @@ export class UpdateProgramComponent {
       telNo: ['', [Validators.required, Validators.pattern(GlobalConstants.phoneRegex)]],
       image: [''],
       description: ['', Validators.required],
-      tag: ['', Validators.required]
+      tag: ['', Validators.required],
+      acceptRegistration: []
     },
     {
       validators: this.timeRangeValidator('startTime', 'endTime'),
@@ -120,12 +124,14 @@ export class UpdateProgramComponent {
           telNo: program.telNo,
           // image: program.image,
           description: program.description,
-          tag: program.tag
+          tag: program.tag,
+          acceptRegistration: program.isRegister  === 'true'
         });
         this.image = program.image;
         this.imagePath = `${environment.apiUrl}/${this.image}`;
         // console.log("Image Path:", this.imagePath);
         // console.log("Created By:", this.userId);
+        console.log(this.programForm.value);
         this.userId = program.userId;
         const token = localStorage.getItem('token');
         const decodedToken = token ? this.jwtDecode.decodeToken(token) : null;
@@ -147,8 +153,8 @@ export class UpdateProgramComponent {
     this.ngxService.start();
     const id = this.programId.toString();
 
-    const formattedStartDate = new Date(this.programForm.get('startDate').value).toISOString().split('T')[0];
-    const formattedEndDate = new Date(this.programForm.get('endDate').value).toISOString().split('T')[0];
+    const formattedStartDate = this.datePipe.transform(this.programForm.get('startDate').value, 'yyyy-MM-dd') || '';
+    const formattedEndDate = this.datePipe.transform(this.programForm.get('endDate').value, 'yyyy-MM-dd') || '';
 
     if (this.userId) {
       const formData = new FormData();
@@ -165,6 +171,7 @@ export class UpdateProgramComponent {
       formData.append('image', this.image);
       formData.append('description', this.programForm.get('description').value);
       formData.append('tag', this.programForm.get('tag').value);
+      formData.append('acceptRegistration', this.programForm.get('acceptRegistration').value);
 
       // formData.forEach((value, key) => {
       //   console.log(`${key}:`, value);

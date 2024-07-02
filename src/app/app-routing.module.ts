@@ -30,7 +30,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { BusinessOrderComponent } from './business-order/business-order.component';
 
 const routes: Routes = [
-  {path: '', component: HomepageComponent},
+  {path: '', title: 'CampusConnect', component: HomepageComponent},
 
   // ADMIN ROUTES
   {
